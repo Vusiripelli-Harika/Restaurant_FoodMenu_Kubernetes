@@ -1,0 +1,63 @@
+body {
+    background-image:url('/images/img5.jpg');
+    background-position: center;
+    background-size: 100% 100%;
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
+form {
+    background-color: rgba(111, 113, 114, 0.384);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: left;
+    width: 600px; /* Increased form width */
+}
+img {
+    border-radius: 10px;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+.food-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.food-item img {
+    margin-right: 200px; /* Move image slightly to the right */
+}
+ 
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+.quantity-controls button {
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0; /* Background color for buttons */
+    color: #333; /* Text color for buttons */
+    border: 1px solid #ccc; /* Border for buttons */
+    border-radius: 3px;
+    cursor: pointer;
+}
+.quantity-controls button:hover {
+    background-color: #e0e0e0; /* Hover color for buttons */
+}
+.quantity-controls input {
+    width: 50px;
+    text-align: center;
+    margin: 0 5px; /* Margin between input and buttons */
+}

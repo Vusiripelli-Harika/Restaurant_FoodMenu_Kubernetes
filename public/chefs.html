@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chefs - Hotel SAACHI</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        header {
+            background: rgba(14, 14, 14, 0.8);
+            color: rgb(247, 240, 240);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(244, 242, 242, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff; /* Set link color to white */
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #4CAF50; /* Set hover color for better contrast */
+        }
+        .container {
+            padding: 80px 20px 20px;
+        }
+        .chefs-section {
+            text-align: left;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .chefs-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .chef {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .chef img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .chef h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .chef p {
+            font-size: 1em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        footer {
+            background-color: #0e0d0d;
+            color: rgb(247, 240, 240);
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hotel SAACHI</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="menu.html">Menu</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="chefs-section">
+            <h2>Meet Our Chefs</h2>
+            
+            <div class="chef">
+                <img src="images/img11.jpg" alt="Chef John Doe">
+                <h3>Chef John Doe</h3>
+                <p>Chef John Doe is our Head Chef with over 20 years of experience in the culinary world. Known for his innovative approach to traditional dishes, Chef John brings a unique blend of creativity and expertise to our kitchen.</p>
+            </div>
+            
+            <div class="chef">
+                <img src="images/img12.jpg" alt="Chef Jane Smith">
+                <h3>Chef Jane Smith</h3>
+                <p>Chef Jane Smith is our talented Pastry Chef, specializing in creating delectable desserts that are both visually stunning and incredibly delicious. Her passion for pastry arts is evident in every creation she presents.</p>
+            </div>
+            
+            <div class="chef">
+                <img src="images/img13.jpg" alt="Chef Michael Brown">
+                <h3>Chef Michael Brown</h3>
+                <p>Chef Michael Brown, our Sous Chef, has an extensive background in both traditional and contemporary cooking techniques. His dedication to perfecting every dish ensures that our guests receive an exceptional dining experience.</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <footer>
+        @2024 HOTEL SAACHI | All Rights Reserved
+    </footer>
+</body>
+</html>

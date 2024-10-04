@@ -1,0 +1,62 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    app_name: "nodejs-app"
+    docker_image: "harika5141/jenkins_capsuleproject-app:latest"
+    mongo_image: "mongo:latest"
+    mongo_uri: "mongodb://db:27017/foodOrderDB"
+    node_port: 3000
+    mongo_port: 27017
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - kubelet
+          - kubectl
+          - kubeadm
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Create application directory
+      file:
+        path: /usr/src/app
+        state: directory
+
+    - name: Copy Dockerfile to remote machine
+      template:
+        src: templates/Dockerfile.j2
+        dest: /usr/src/app/Dockerfile
+
+    - name: Copy docker-compose.yml to remote machine
+      template:
+        src: templates/docker-compose.j2
+        dest: /usr/src/app/docker-compose.yml
+
+    - name: Build and push Docker image
+      shell: |
+        docker-compose build
+        docker-compose push
+
+    - name: Apply Kubernetes deployment
+      template:
+        src: templates/deployment.j2
+        dest: /usr/src/app/deployment.yaml
+    - name: Apply Kubernetes deployment
+      command: kubectl apply -f /usr/src/app/deployment.yaml
+
+    - name: Apply Kubernetes service
+      template:
+        src: templates/service.j2
+        dest: /usr/src/app/service.yaml
+    - name: Apply Kubernetes service
+      command: kubectl apply -f /usr/src/app/service.yaml

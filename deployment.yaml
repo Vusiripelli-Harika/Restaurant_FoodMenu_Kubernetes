@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foodmenu
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: nodejs-app
+        image: harika5141/jenkins_capsuleproject-app:latest
+        ports:
+        - containerPort: 3067
+        env:
+        - name: MONGO_URI
+          value: "mongodb://localhost:27017/restaurant"
+      - name: docker
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+

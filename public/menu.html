@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+    <title>Food Menu</title>
+    <style>
+        body {
+            background-image:url('/images/img5.jpg');
+            background-position: center;
+            background-size: 100% 100%;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+            margin: 20px auto;
+        }
+        .food-item {
+            margin-bottom: 20px;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .quantity-controls input {
+            width: 50px;
+            text-align: center;
+        }
+        #backButton {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #backButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>OUR MENU</h1>
+    <form id="orderForm" action="/submit_order" method="post">
+        <label for="tableNumber">Table Number:</label>
+        <input type="number" id="tableNumber" name="tableNumber" required min="1" max="10"><br><br>
+ 
+        <h3>Starters</h3>
+        <div class="food-item">
+            <input type="checkbox" id="starter1" name="starters" value="Soup" data-price="100">
+            <label for="starter1">Soup - ₹100</label>
+            <img src="images/soup.jpg" alt="Soup" style="width: 90px; height: 90px;">
+            <div class="quantity-controls">
+                <button type="button" onclick="decrement('starter1Quantity')">-</button>
+                <input type="number" id="starter1Quantity" name="starter1Quantity" min="1" value="1">
+                <button type="button" onclick="increment('starter1Quantity')">+</button>
+            </div>
+        </div>
+ 
+        <div class="food-item">
+            <input type="checkbox" id="starter2" name="starters" value="Salad" data-price="150">
+            <label for="starter2">Salad - ₹150</label>
+            <img src="images/salad.jpg" alt="Salad" style="width: 90px; height: 90px;">
+            <div class="quantity-controls">
+                <button type="button" onclick="decrement('starter2Quantity')">-</button>
+                <input type="number" id="starter2Quantity" name="starter2Quantity" min="1" value="1">
+                <button type="button" onclick="increment('starter2Quantity')">+</button>
+            </div>
+        </div>
+ 
+        <h3>Main Course</h3>
+        <div class="food-item">
+            <input type="checkbox" id="main1" name="mainCourse" value="Pasta" data-price="250">
+            <label for="main1">Pasta - ₹250</label>
+            <img src="images/pasta.jpg" alt="Pasta" style="width: 90px; height: 90px;">
+            <div class="quantity-controls">
+                <button type="button" onclick="decrement('main1Quantity')">-</button>
+                <input type="number" id="main1Quantity" name="main1Quantity" min="1" value="1">
+                <button type="button" onclick="increment('main1Quantity')">+</button>
+            </div>
+        </div>
+ 
+        <div class="food-item">
+            <input type="checkbox" id="main2" name="mainCourse" value="Pizza" data-price="300">
+            <label for="main2">Pizza - ₹300</label>
+            <img src="images/pizza.jpg" alt="Pizza" style="width: 90px; height: 90px;">
+            <div class="quantity-controls">
+                <button type="button" onclick="decrement('main2Quantity')">-</button>
+                <input type="number" id="main2Quantity" name="main2Quantity" min="1" value="1">
+                <button type="button" onclick="increment('main2Quantity')">+</button>
+            </div>
+        </div>
+ 
+        <h3>Soft Drinks</h3>
+        <div class="food-item">
+            <input type="checkbox" id="drink1" name="softDrinks" value="Coke" data-price="50">
+            <label for="drink1">Coke - ₹50</label>
+            <img src="images/coke.jpg" alt="Coke" style="width: 90px; height: 90px;">
+            <div class="quantity-controls">
+                <button type="button" onclick="decrement('drink1Quantity')">-</button>
+                <input type="number" id="drink1Quantity" name="drink1Quantity" min="1" value="1">
+                <button type="button" onclick="increment('drink1Quantity')">+</button>
+            </div>
+        </div>
+ 
+        <div class="food-item">
+            <input type="checkbox" id="drink2" name="softDrinks" value="Juice" data-price="80">
+            <label for="drink2">Juice - ₹80</label>
+            <img src="images/juice.jpg" alt="Juice" style="width: 90px; height: 90px;">
+            <div class="quantity-controls">
+                <button type="button" onclick="decrement('drink2Quantity')">-</button>
+                <input type="number" id="drink2Quantity" name="drink2Quantity" min="1" value="1">
+                <button type="button" onclick="increment('drink2Quantity')">+</button>
+            </div>
+        </div>
+ 
+        <label for="instructions">Cooking Instructions:</label><br>
+        <textarea id="instructions" name="instructions"></textarea><br><br>
+ 
+        <button type="submit" id="submitButton">Submit Order</button>
+        <button type="button" id="deleteButton" style="display:none;">Delete Order</button>
+    </form>
+ 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('id');
+            const deleteFlag = params.get('delete');
+            const updateFlag = params.get('update');
+ 
+            if (orderId) {
+                // Fetch order data to pre-fill the form
+                fetch(`/order/${orderId}`)
+                    .then(response => response.json())
+                    .then(order => {
+                        document.getElementById('tableNumber').value = order.tableNumber;
+                       
+                        // Pre-fill the checkboxes
+                        document.querySelectorAll('input[name="starters"]').forEach(starter => {
+                            starter.checked = order.starters.includes(starter.value);
+                        });
+                        document.querySelectorAll('input[name="mainCourse"]').forEach(main => {
+                            main.checked = order.mainCourse.includes(main.value);
+                        });
+                        document.querySelectorAll('input[name="softDrinks"]').forEach(drink => {
+                            drink.checked = order.softDrinks.includes(drink.value);
+                        });
+ 
+                        // Pre-fill the quantities
+                        Object.keys(order.quantities).forEach(key => {
+                            const quantityInput = document.getElementById(key);
+                            if (quantityInput) {
+                                quantityInput.value = order.quantities[key];
+                            }
+                        });
+ 
+                        // Set form action to update order
+                        document.getElementById('submitButton').addEventListener('click', () => {
+                            document.getElementById('orderForm').action = `/update_order/${orderId}`;
+                        });
+                       
+                        // Show delete button
+                        document.getElementById('deleteButton').style.display = 'inline';
+                        document.getElementById('deleteButton').addEventListener('click', () => {
+                            fetch(`/delete_order/${orderId}`, { method: 'POST' })
+                                .then(() => window.location.href = '/menu.html?delete=success');
+                        });
+                    })
+                    .catch(error => console.error('Error fetching order:', error));
+            }
+           
+            if (deleteFlag === 'success') {
+                alert('Order deleted successfully');
+                
+            }
+           
+            if (updateFlag === 'true') {
+                alert('Order updated successfully');
+            }
+            document.getElementById('tableNumber').addEventListener('input', function() {
+                const value = parseInt(this.value, 10);
+                if (value < 1 || value > 10 || isNaN(value)) {
+                    this.setCustomValidity('Table number must be between 1 and 10.');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+            document.getElementById('orderForm').addEventListener('submit', function(event) {
+                const isChecked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).some(checkbox => {
+                    const quantityInput = document.getElementById(checkbox.id + 'Quantity');
+                    return quantityInput && parseInt(quantityInput.value, 10) > 0;
+                });
+                
+                const instructions = document.getElementById('instructions').value.trim();
+
+                if (!isChecked) {
+                    event.preventDefault(); // Prevent form submission
+                    alert('Please select at least one food item with quantity.');
+                } else if (!instructions) {
+                    if (!confirm('The cooking instructions are not added. Are you sure you want to continue?')) {
+                        event.preventDefault(); // Prevent form submission if user cancels
+                    }
+                }
+            });
+        });
+ 
+        function decrement(id) {
+            const input = document.getElementById(id);
+            let value = parseInt(input.value, 10);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        }
+ 
+        function increment(id) {
+            const input = document.getElementById(id);
+            input.value = parseInt(input.value, 10) + 1;
+        }
+    </script>
+   
+</body>
+</html>
